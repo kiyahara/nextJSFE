@@ -11,8 +11,18 @@ import {
   TextInput,
 } from "@mantine/core";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  function goRegister() {
+    router.push("/Register");
+  }
+
+  function goProfile() {
+    router.push("/Profile");
+  }
   return (
     <AppShell padding="md">
       <AppShell.Main
@@ -22,14 +32,19 @@ export default function Home() {
         }}
       >
         <Center>
-          <Image src={"/images/Logo.png"} width={100} height={300} />
+          <Image
+            src={"/images/Logo.png"}
+            width={100}
+            height={300}
+            alt="loginLogo"
+          />
         </Center>
         <Grid>
           <Grid.Col span={12}>
             <Center>
               <TextInput
                 w={300}
-                label="Username"
+                label="Username/Email"
                 variant="filled"
                 placeholder="Username..."
               />
@@ -55,6 +70,7 @@ export default function Home() {
                 size="md"
                 radius="md"
                 w={300}
+                onClick={goProfile}
               >
                 Login
               </Button>
@@ -63,9 +79,12 @@ export default function Home() {
           <Grid.Col span={12}>
             <Center>
               Dont Have Account? <Space w={10} />
-              <a href="/Register" style={{ cursor: "pointer" }}>
+              <p
+                style={{ cursor: "pointer", color: "blue" }}
+                onClick={goRegister}
+              >
                 <b>Register Here!</b>
-              </a>
+              </p>
             </Center>
           </Grid.Col>
         </Grid>
