@@ -155,7 +155,7 @@ export default function RegisterComponent() {
           </form>
           <Space h={50} />
         </AppShell.Main>
-        <AppShell.Footer
+        {/* <AppShell.Footer
           p="md"
           style={{
             textAlign: "center",
@@ -165,7 +165,7 @@ export default function RegisterComponent() {
         >
           ©{moment().format("YYYY")} OKR Project - Fenri Mintardja. All Rights
           Reserved
-        </AppShell.Footer>
+        </AppShell.Footer> */}
       </AppShell>
     </>
   );
