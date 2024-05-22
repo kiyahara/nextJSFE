@@ -29,9 +29,10 @@ export default function RootState({ children }: { children: React.ReactNode }) {
       myColor,
     },
   });
+
   return (
     <MantineProvider theme={theme}>
-      <CookiesProvider>{children}</CookiesProvider>;
+      <CookiesProvider>{children}</CookiesProvider>
       <Notifications position="top-right" />
     </MantineProvider>
   );
