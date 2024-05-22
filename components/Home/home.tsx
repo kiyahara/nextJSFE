@@ -143,7 +143,7 @@ export default function HomeComponent() {
           </Grid>
         </form>
       </AppShell.Main>
-      <AppShell.Footer
+      {/* <AppShell.Footer
         p="md"
         style={{
           textAlign: "center",
@@ -153,7 +153,7 @@ export default function HomeComponent() {
       >
         ©{moment().format("YYYY")} OKR Project - Fenri Mintardja. All Rights
         Reserved
-      </AppShell.Footer>
+      </AppShell.Footer> */}
     </AppShell>
   );
 }
