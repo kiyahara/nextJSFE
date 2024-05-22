@@ -1,12 +1,14 @@
-"use client";
-
 import {
   MantineColorsTuple,
   MantineProvider,
+  Notification,
   createTheme,
 } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import "./globals.css";
+import { CookiesProvider } from "next-client-cookies/server";
+import { Notifications } from "@mantine/notifications";
 
 export default function RootState({ children }: { children: React.ReactNode }) {
   const myColor: MantineColorsTuple = [
@@ -27,5 +29,10 @@ export default function RootState({ children }: { children: React.ReactNode }) {
       myColor,
     },
   });
-  return <MantineProvider theme={theme}>{children}</MantineProvider>;
+  return (
+    <MantineProvider theme={theme}>
+      <CookiesProvider>{children}</CookiesProvider>;
+      <Notifications position="top-right" />
+    </MantineProvider>
+  );
 }
