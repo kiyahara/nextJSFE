@@ -45,8 +45,6 @@ export default function ProfileComponent() {
 
   function getProfileUser() {
     setVisible(true);
-    console.log(cookies.get("idProfile"));
-    console.log(cookies.get("accessToken"));
     getProfile(
       Number(cookies.get("idProfile")),
       String(cookies.get("accessToken"))
