@@ -36,8 +36,9 @@ export default function RegisterComponent() {
     setVisible(true);
     Register(body)
       .then((res) => {
+        console.log(res);
         setVisible(false);
-        res.status == 201 ? goLogin : "";
+        res.status == 201 ? goLogin() : "";
       })
       .catch((err) => {
         setVisible(false);
