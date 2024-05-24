@@ -68,6 +68,7 @@ export default function HomeComponent() {
       setVisible(false);
     }
     setVisible(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -85,7 +86,12 @@ export default function HomeComponent() {
       >
         <form onSubmit={form.onSubmit((values) => onLogin(values))}>
           <Center>
-            <Image src={"/images/Logo.png"} width={100} height={300} />
+            <Image
+              src={"/images/Logo.png"}
+              width={100}
+              height={300}
+              alt="logo.png"
+            />
           </Center>
           <Grid>
             <Grid.Col span={12}>

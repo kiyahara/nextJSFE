@@ -62,6 +62,7 @@ export default function ProfileComponent() {
 
   useEffect(() => {
     getProfileUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
