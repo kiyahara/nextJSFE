@@ -1,6 +1,5 @@
 "use client";
 
-import { Register } from "@/app/api/auth";
 import {
   AppShell,
   Button,
@@ -16,6 +15,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import NotificationComponent from "../Notification/notification";
 import { useState } from "react";
+import { Register } from "@/app/api/register";
 
 interface RegisterModel {
   name: string;

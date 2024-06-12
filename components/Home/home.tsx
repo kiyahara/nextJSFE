@@ -47,13 +47,14 @@ export default function HomeComponent() {
     setVisible(true);
     Login(body)
       .then((res) => {
-        setVisible(false);
         if (res.status == 201) {
+          setVisible(false);
           cookies.set("idProfile", res.data?.user?.id);
           cookies.set("accessToken", res.data?.backendTokend?.accessToken);
           cookies.set("refreshToken", res.data?.backendTokend?.refreshToken);
           router.push("/Profile");
         }
+        setVisible(false);
       })
       .catch((err) => {
         setVisible(false);

@@ -5,26 +5,10 @@ interface LoginModel {
   password: string;
 }
 
-interface RegisterModel {
-  name: string;
-  email: string;
-  password: string;
-}
-
 export async function Login(body: LoginModel) {
   const result = await axios({
     method: "post",
     url: process.env.BASE_URL + "auth/login",
-    data: body,
-  });
-
-  return result;
-}
-
-export async function Register(body: RegisterModel) {
-  const result = await axios({
-    method: "post",
-    url: process.env.BASE_URL + "auth/register",
     data: body,
   });
 
