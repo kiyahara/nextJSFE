@@ -30,7 +30,7 @@ describe("authService", () => {
         },
         status: "201",
       };
-      axios.mockResolvedValue(resp);
+      (axios as jest.MockedFunction<any>).mockResolvedValue(resp);
       const result = await Login(userData);
       expect(result.data).toEqual(resp.data);
     });
@@ -46,7 +46,9 @@ describe("authService", () => {
         message: "Unauthorized",
         statusCode: "401",
       };
-      axios.mockResolvedValue(Promise.reject(resp));
+      (axios as jest.MockedFunction<any>).mockResolvedValue(
+        Promise.reject(resp)
+      );
       await expect(Login(userData)).rejects.toEqual(resp);
     });
   });
