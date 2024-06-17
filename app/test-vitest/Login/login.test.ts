@@ -49,7 +49,7 @@ describe("authService", () => {
       (axios as jest.MockedFunction<any>).mockResolvedValue(
         Promise.reject(resp)
       );
-      await expect(Login(userData)).rejects.toEqual(resp);
+      await expect(Login(userData)).rejects.toBe(resp);
     });
   });
 });
