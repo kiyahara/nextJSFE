@@ -13,7 +13,6 @@ describe("registerService", () => {
   describe("Success", () => {
     // title
     test("Register_UserNeverRegistered_UserCanRegister", async () => {
-      // title
       // Arrange
       const userData = {
         name: "fikri",

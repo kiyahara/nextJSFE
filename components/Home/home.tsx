@@ -19,7 +19,6 @@ import { useCookies } from "next-client-cookies";
 import NotificationComponent from "../Notification/notification";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LoginData } from "@/app/entities/login";
 
 interface LoginModel {
   email: string;
@@ -44,15 +43,24 @@ export default function HomeComponent() {
     },
   });
 
-  function onLogin(body: LoginModel) {
+  function onLogin(formValues: LoginModel) {
     setVisible(true);
+    var CryptoJS = require("crypto-js");
+    const encryptData = CryptoJS.AES.encrypt(
+      formValues.password,
+      process.env.jwtSecretKey
+    ).toString();
+    const body: LoginModel = {
+      email: formValues.email,
+      password: encryptData,
+    };
     Login(body)
-      .then((res: LoginData) => {
+      .then((res) => {
         if (res.status == 201) {
           setVisible(false);
-          cookies.set("idProfile", String(res.user.id));
-          cookies.set("accessToken", res.backendToken?.accessToken);
-          cookies.set("refreshToken", res.backendToken?.refreshToken);
+          cookies.set("idProfile", String(res.data?.user.id));
+          cookies.set("accessToken", res.data?.backendToken?.accessToken);
+          cookies.set("refreshToken", res.data?.backendToken?.refreshToken);
           router.push("/Profile");
         }
         setVisible(false);

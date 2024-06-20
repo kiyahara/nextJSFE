@@ -13,15 +13,13 @@ export async function Login(body: LoginModel) {
     data: body,
   });
 
-  console.log(result);
+  // const response: LoginData = {
+  //   user: result.data?.user,
+  //   backendToken: result.data?.backendToken,
+  //   status: result.status,
+  // };
 
-  const response: LoginData = {
-    user: result?.data?.user,
-    backendToken: result?.data?.backendToken,
-    status: result.status,
-  };
-
-  return response;
+  return result;
 }
 
 export async function RefreshToken(token: string) {

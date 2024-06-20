@@ -101,54 +101,6 @@ export default function ProfileComponent() {
             Logout
           </Button>
         </Center>
-        {/* <Grid>
-          <Grid.Col span={12}>
-            <Center>
-              <TextInput
-                w={300}
-                label="Email"
-                variant="filled"
-                placeholder="Email..."
-              />
-            </Center>
-          </Grid.Col>
-          <Grid.Col span={12}>
-            <Center>
-              <TextInput
-                w={300}
-                label="Username"
-                variant="filled"
-                placeholder="Username..."
-              />
-            </Center>
-          </Grid.Col>
-          <Space h={50} />
-          <Grid.Col span={12}>
-            <Center>
-              <TextInput
-                w={300}
-                label="Password"
-                variant="filled"
-                placeholder="Password..."
-              />
-            </Center>
-          </Grid.Col>
-          <Space h={80} />
-          <Grid.Col span={12}>
-            <Center>
-              <Button
-                variant="filled"
-                color="green"
-                size="md"
-                radius="md"
-                w={300}
-                onClick={goLogin}
-              >
-                Register
-              </Button>
-            </Center>
-          </Grid.Col>
-        </Grid> */}
       </AppShell.Main>
       <AppShell.Footer
         p="md"
