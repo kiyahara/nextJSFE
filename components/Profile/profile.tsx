@@ -33,7 +33,7 @@ export default function ProfileComponent() {
     RefreshToken(String(cookies.get("refreshToken")))
       .then((res) => {
         setVisible(false);
-        cookies.set("accessToken", res.data?.backendTokend?.accessToken);
+        cookies.set("accessToken", res.data?.backendToken?.accessToken);
         getProfileUser();
       })
       .catch((err) => {

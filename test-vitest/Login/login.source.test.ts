@@ -2,7 +2,8 @@
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
-import { Login } from "../../api/auth";
+import { Login } from "../../app/api/auth";
+import { LoginData } from "@/app/entities/login";
 
 vi.mock("axios");
 
@@ -23,7 +24,7 @@ describe("authService", () => {
             email: "fikri.mintardja@mail.com",
             name: "fenri",
           },
-          backendTokend: {
+          backendToken: {
             accessToken: "",
             refreshToken: "",
           },
@@ -31,8 +32,8 @@ describe("authService", () => {
         status: "201",
       };
       (axios as jest.MockedFunction<any>).mockResolvedValue(resp);
-      const result = await Login(userData);
-      expect(result.data).toEqual(resp.data);
+      const result: LoginData = await Login(userData);
+      expect(result.backendToken).toEqual(resp.data.backendToken);
     });
   });
   describe("Failed", () => {
@@ -75,7 +76,7 @@ describe("authService", () => {
 //       status: 201,
 //       data: {
 //         user: { id: 1 },
-//         backendTokend: {
+//         backendToken: {
 //           accessToken: "access_token",
 //           refreshToken: "refresh_token",
 //         },

@@ -2,7 +2,7 @@
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
-import { Register } from "../../api/register";
+import { Register } from "../../app/api/register";
 
 vi.mock("axios");
 
@@ -11,7 +11,10 @@ describe("registerService", () => {
     vi.clearAllMocks();
   });
   describe("Success", () => {
+    // title
     test("Register_UserNeverRegistered_UserCanRegister", async () => {
+      // title
+      // Arrange
       const userData = {
         name: "fikri",
         email: "fikri.mintardja@mail.com",
@@ -22,8 +25,10 @@ describe("registerService", () => {
         id: 13,
         name: "fikri",
       };
+      // Act
       (axios as jest.MockedFunction<any>).mockResolvedValue(resp);
       const result = await Register(userData);
+      // Assert
       expect(result).toEqual(resp);
     });
   });

@@ -19,6 +19,7 @@ import { useCookies } from "next-client-cookies";
 import NotificationComponent from "../Notification/notification";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LoginData } from "@/app/entities/login";
 
 interface LoginModel {
   email: string;
@@ -46,12 +47,12 @@ export default function HomeComponent() {
   function onLogin(body: LoginModel) {
     setVisible(true);
     Login(body)
-      .then((res) => {
+      .then((res: LoginData) => {
         if (res.status == 201) {
           setVisible(false);
-          cookies.set("idProfile", res.data?.user?.id);
-          cookies.set("accessToken", res.data?.backendTokend?.accessToken);
-          cookies.set("refreshToken", res.data?.backendTokend?.refreshToken);
+          cookies.set("idProfile", String(res.user.id));
+          cookies.set("accessToken", res.backendToken?.accessToken);
+          cookies.set("refreshToken", res.backendToken?.refreshToken);
           router.push("/Profile");
         }
         setVisible(false);

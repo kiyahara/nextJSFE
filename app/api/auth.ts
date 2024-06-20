@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LoginData } from "../entities/login";
 
 interface LoginModel {
   email: string;
@@ -12,7 +13,15 @@ export async function Login(body: LoginModel) {
     data: body,
   });
 
-  return result;
+  console.log(result);
+
+  const response: LoginData = {
+    user: result?.data?.user,
+    backendToken: result?.data?.backendToken,
+    status: result.status,
+  };
+
+  return response;
 }
 
 export async function RefreshToken(token: string) {
