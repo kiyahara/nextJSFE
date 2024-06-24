@@ -32,8 +32,18 @@ export default function RegisterComponent() {
     router.push("/");
   }
 
-  function RegisUser(body: RegisterModel) {
+  function RegisUser(formValues: RegisterModel) {
     setVisible(true);
+    var CryptoJS = require("crypto-js");
+    const encryptData = CryptoJS.AES.encrypt(
+      formValues.password,
+      process.env.jwtSecretKey
+    ).toString();
+    const body: RegisterModel = {
+      name: formValues.name,
+      email: formValues.email,
+      password: encryptData,
+    };
     Register(body)
       .then((res) => {
         setVisible(false);
