@@ -3,7 +3,7 @@ import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
 import { getProfile } from "../../app/api/profile";
-import { RefreshToken } from "../../app/api/auth";
+import { RefreshToken } from "../../app/api/refresh";
 
 vi.mock("axios");
 

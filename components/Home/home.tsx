@@ -14,11 +14,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import moment from "moment";
-import { useCookies } from "next-client-cookies";
 import NotificationComponent from "../Notification/notification";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TokenSet } from "../token/token";
 
 interface LoginModel {
   email: string;
@@ -26,7 +25,6 @@ interface LoginModel {
 }
 
 export default function HomeComponent() {
-  const cookies = useCookies();
   const router = useRouter();
   const [visible, setVisible] = useState(true);
 
@@ -58,9 +56,11 @@ export default function HomeComponent() {
       .then((res) => {
         if (res.status == 201) {
           setVisible(false);
-          cookies.set("idProfile", String(res.data?.user.id));
-          cookies.set("accessToken", res.data?.backendToken?.accessToken);
-          cookies.set("refreshToken", res.data?.backendToken?.refreshToken);
+          TokenSet(
+            res.data?.user.id,
+            res.data?.backendToken?.accessToken,
+            res.data?.backendToken?.refreshToken
+          );
           router.push("/Profile");
         }
         setVisible(false);
@@ -73,7 +73,7 @@ export default function HomeComponent() {
   }
 
   useEffect(() => {
-    if (cookies.get("accessToken") != undefined) {
+    if (localStorage.getItem("accessToken") != undefined) {
       router.push("/Profile");
       setVisible(false);
     }

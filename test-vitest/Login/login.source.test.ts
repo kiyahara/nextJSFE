@@ -3,20 +3,20 @@ import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
 import { Login } from "../../app/api/auth";
-import { LoginData } from "@/app/entities/login";
 
 vi.mock("axios");
 
-describe("authService", () => {
+describe("authLoginSource", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
   describe("Success", () => {
+    // Arrange
     const userData = {
       email: "fikri.mintardja@mail.com",
       password: "1234",
     };
-    const expectedRespond: LoginData = {
+    const expectedRespond = {
       user: {
         id: 1,
         email: "fikri.mintardja@mail.com",
@@ -28,29 +28,14 @@ describe("authService", () => {
       },
       status: 201,
     };
-    test("Should Call Correct LoginService With the Correct Inputs", async () => {
+    test("AuthService Should Call Correct With the Correct Inputs", async () => {
+      // Act
       (axios as jest.MockedFunction<any>).mockResolvedValue(expectedRespond);
       const result = await Login(userData);
+      // Assert
       expect(result).toEqual(expectedRespond);
     });
   });
-  // describe("Failed", () => {
-  //   test("Login_UserNotRegister_UserCannotLogin", async () => {
-  //     expect.assertions(1);
-  //     const userData = {
-  //       email: "fikri.mintardja@mail.com",
-  //       password: "123",
-  //     };
-  //     const resp = {
-  //       message: "Unauthorized",
-  //       statusCode: "401",
-  //     };
-  //     (axios as jest.MockedFunction<any>).mockResolvedValue(
-  //       Promise.reject(resp)
-  //     );
-  //     await expect(Login(userData)).rejects.toBe(resp);
-  //   });
-  // });
 });
 
 // Mocking react-cookie and next/router

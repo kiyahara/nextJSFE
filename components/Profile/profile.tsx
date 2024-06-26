@@ -1,12 +1,12 @@
 "use client";
 
-import { RefreshToken } from "@/app/api/auth";
 import { getProfile } from "@/app/api/profile";
+import { RefreshToken } from "@/app/api/refresh";
 import { AppShell, Button, Center, Image, LoadingOverlay } from "@mantine/core";
 import moment from "moment";
-import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { RenewTokenSet, TokenRemove } from "../token/token";
 
 interface ProfileModel {
   id: number;
@@ -16,24 +16,21 @@ interface ProfileModel {
 
 export default function ProfileComponent() {
   const router = useRouter();
-  const cookies = useCookies();
   const [visible, setVisible] = useState(false);
   const [profile, setProfile] = useState<ProfileModel>();
 
   function goLogin() {
     setVisible(false);
-    cookies.remove("idProfile");
-    cookies.remove("accessToken");
-    cookies.remove("refreshToken");
+    TokenRemove();
     router.push("/");
   }
 
   function getRefreshToken() {
     setVisible(true);
-    RefreshToken(String(cookies.get("refreshToken")))
+    RefreshToken(String(localStorage.getItem("refreshToken")))
       .then((res) => {
         setVisible(false);
-        cookies.set("accessToken", res.data?.backendToken?.accessToken);
+        RenewTokenSet(res.data?.backendToken?.accessToken);
         getProfileUser();
       })
       .catch((err) => {
@@ -46,8 +43,8 @@ export default function ProfileComponent() {
   function getProfileUser() {
     setVisible(true);
     getProfile(
-      Number(cookies.get("idProfile")),
-      String(cookies.get("accessToken"))
+      Number(localStorage.getItem("idProfile")),
+      String(localStorage.getItem("accessToken"))
     )
       .then((res) => {
         setVisible(false);
