@@ -1,20 +1,41 @@
-// import { render, fireEvent } from 'vitest';
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
 import { Login } from "../../app/api/auth";
-import { TokenSet } from "../../components/token/token";
+import { AuthRepositoryImpl } from "../../mockingData/core/data/repositories/auth";
+import {
+  BaseLocalDataImpl,
+  IBaseLocalData,
+} from "../../mockingData/core/data/dataSources/local/baseLocal";
 
 vi.mock("axios");
+
+vi.mock("../../mockingData/core/data/dataSources/local/baseLocal", () => ({
+  BaseLocalDataImpl: vi.fn().mockImplementation(() => ({
+    setTokenLocalStorage: vi.fn(),
+    removeLocalStorage: vi.fn(),
+  })),
+}));
 
 describe("authService", () => {
   const userData = {
     email: "fikri.mintardja@mail.com",
     password: "123",
   };
+
+  let authRepository: AuthRepositoryImpl;
+  let mockBaseLocalDataImp: jest.Mocked<IBaseLocalData>;
+
+  beforeEach(() => {
+    mockBaseLocalDataImp =
+      new BaseLocalDataImpl() as jest.Mocked<IBaseLocalData>;
+    authRepository = new AuthRepositoryImpl(mockBaseLocalDataImp);
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
   });
+
   describe("Success", () => {
     // Arrange
     const expectedRespond = {
@@ -53,18 +74,46 @@ describe("authService", () => {
       await expect(Login(userData)).rejects.toBe(resp);
     });
   });
-  // describe("SetTokenData", () => {
-  //   test("AuthService Should Handle Error  and Return Error Response", async () => {
-  //     // Arrange
-  //     const id = 1;
-  //     const key = "authToken";
-  //     const token = "fakeToken";
+  describe("SetTokenData", () => {
+    test("authSetId should call setIdLocalStorage with correct arguments", () => {
+      // Arrange
+      const key = "IdLogin";
+      const Id = "1";
 
-  //     // Act
-  //     TokenSet(id, key, token);
+      // Act
+      authRepository.authSetToken(key, "1");
 
-  //     // Assert
-  //     expect(TokenSet).toHaveBeenCalledWith(id, key, token);
-  //   });
-  // });
+      //Assert
+      expect(mockBaseLocalDataImp.setTokenLocalStorage).toHaveBeenCalledWith(
+        key,
+        Id
+      );
+    });
+
+    test("authSetToken should call setTokenLocalStorage with correct arguments", () => {
+      // Arrange
+      const key = "authToken";
+      const token = "fakeToken";
+
+      // Act
+      authRepository.authSetToken(key, token);
+
+      //Assert
+      expect(mockBaseLocalDataImp.setTokenLocalStorage).toHaveBeenCalledWith(
+        key,
+        token
+      );
+    });
+
+    test("authRemoveToken should call removeLocalStorage with correct arguments", () => {
+      // Arrange
+      const key = "authToken";
+
+      // Act
+      authRepository.authRemoveToken(key);
+
+      // Assert
+      expect(mockBaseLocalDataImp.removeLocalStorage).toHaveBeenCalledWith(key);
+    });
+  });
 });
