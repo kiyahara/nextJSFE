@@ -6,7 +6,7 @@ import { Login } from "../../app/api/auth";
 
 vi.mock("axios");
 
-describe("authLoginSource", () => {
+describe("LoginSourceService", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });

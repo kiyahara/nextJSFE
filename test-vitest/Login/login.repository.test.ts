@@ -12,12 +12,13 @@ vi.mock("axios");
 
 vi.mock("../../mockingData/core/data/dataSources/local/baseLocal", () => ({
   BaseLocalDataImpl: vi.fn().mockImplementation(() => ({
+    setLocalStorage: vi.fn(),
     setTokenLocalStorage: vi.fn(),
     removeLocalStorage: vi.fn(),
   })),
 }));
 
-describe("authService", () => {
+describe("LoginRepositoryService", () => {
   const userData = {
     email: "fikri.mintardja@mail.com",
     password: "123",
@@ -36,7 +37,7 @@ describe("authService", () => {
     vi.clearAllMocks();
   });
 
-  describe("Success", () => {
+  describe("SourceData", () => {
     // Arrange
     const expectedRespond = {
       user: {
@@ -50,7 +51,7 @@ describe("authService", () => {
       },
       status: 201,
     };
-    test("AuthService Should Call Correct With the Correct Inputs", async () => {
+    test("AuthService Should Call Correct Respond With the Correct Inputs", async () => {
       // Assert
       (axios as jest.MockedFunction<any>).mockResolvedValue(expectedRespond);
       const result = await Login(userData);
@@ -74,17 +75,17 @@ describe("authService", () => {
       await expect(Login(userData)).rejects.toBe(resp);
     });
   });
-  describe("SetTokenData", () => {
+  describe("TokenData", () => {
     test("authSetId should call setIdLocalStorage with correct arguments", () => {
       // Arrange
       const key = "IdLogin";
       const Id = "1";
 
       // Act
-      authRepository.authSetToken(key, "1");
+      authRepository.authSetId(key, Id);
 
       //Assert
-      expect(mockBaseLocalDataImp.setTokenLocalStorage).toHaveBeenCalledWith(
+      expect(mockBaseLocalDataImp.setLocalStorage).toHaveBeenCalledWith(
         key,
         Id
       );

@@ -1,6 +1,6 @@
 import { type IAuthRepository } from "../../repositories/auth";
 
-export class UseCaseAuthToken {
+export class UseCaseAuthLogin {
   protected _authRepository: IAuthRepository;
 
   constructor(authRepository: IAuthRepository) {
@@ -14,6 +14,7 @@ export class UseCaseAuthToken {
   setToken(key: string, token: string) {
     return this._authRepository?.authSetToken(key, token);
   }
+
   removeToken(key: string) {
     return this._authRepository?.authRemoveToken(key);
   }

@@ -10,7 +10,7 @@ export class AuthRepositoryImpl extends IAuthRepository {
   }
 
   authSetId(key: string, id: string): void {
-    this.baseLocalDataImp.setIdLocalStorage(key, id);
+    this.baseLocalDataImp.setLocalStorage(key, id);
   }
 
   authSetToken(key: string, token: string): void {

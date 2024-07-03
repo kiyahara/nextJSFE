@@ -12,6 +12,7 @@ vi.mock("axios");
 
 vi.mock("../../mockingData/core/data/dataSources/local/baseLocal", () => ({
   BaseLocalDataImpl: vi.fn().mockImplementation(() => ({
+    setLocalStorage: vi.fn(),
     setTokenLocalStorage: vi.fn(),
     removeLocalStorage: vi.fn(),
   })),
@@ -76,13 +77,10 @@ describe("UseCaseAuthSetToken", () => {
     const Id = "1";
 
     // Act
-    authRepository.authSetToken(key, "1");
+    authRepository.authSetId(key, Id);
 
     //Assert
-    expect(mockBaseLocalDataImp.setTokenLocalStorage).toHaveBeenCalledWith(
-      key,
-      Id
-    );
+    expect(mockBaseLocalDataImp.setLocalStorage).toHaveBeenCalledWith(key, Id);
   });
 
   test("authSetToken should call setTokenLocalStorage with correct arguments", () => {
