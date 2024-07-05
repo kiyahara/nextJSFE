@@ -16,47 +16,6 @@ import { ResponseBaseLogin } from "../../mockingData/core/data/models/auth/respo
 import { UseCaseAuthLogin } from "../../mockingData/core/domain/usecases/auth/login";
 import { LoginData } from "../../mockingData/core/domain/entities/auth/login";
 
-// vi.mock("../../mockingData/core/data/repositories/auth", () => ({
-//   AuthRepositoryImpl: vi.fn().mockImplementation(() => ({
-//     authLogin: vi.fn().mockResolvedValue({
-//       data: {
-//         user: {
-//           id: 1,
-//           email: "fikri.mintardja@mail.com",
-//           name: "fenri",
-//         },
-//         backendToken: {
-//           accessToken: "fakeToken",
-//           refreshToken: "fakeToken",
-//         },
-//       },
-//       status: 201,
-//     }),
-//     authSetId: vi.fn(),
-//     authSetToken: vi.fn(),
-//   })),
-// }));
-// vi.mock("../../mockingData/core/data/repositories/auth", () => ({
-//   AuthRepositoryImpl: vi.fn().mockImplementation(() => ({
-//     authLogin: vi.fn().mockResolvedValue({
-//       data: {
-//         user: {
-//           id: 1,
-//           email: "fikri.mintardja@mail.com",
-//           name: "fenri",
-//         },
-//         backendToken: {
-//           accessToken: "fakeToken",
-//           refreshToken: "fakeToken",
-//         },
-//       },
-//       status: 201,
-//     }),
-//     authSetId: vi.fn(),
-//     authSetToken: vi.fn(),
-//   })),
-// }));
-
 const mockRepoAuthLogin = vi.spyOn(AuthRepositoryImpl.prototype, "authLogin");
 
 let useCaseAuthLogin: UseCaseAuthLogin;

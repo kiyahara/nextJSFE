@@ -6,6 +6,8 @@ import {
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 
+// vi.mock("axios")
+
 // vi.mock("./../../../core/data/dataSources/remote/auth", () => ({
 //   AuthLoginDataImpl: vi.fn().mockImplementation(() => ({
 //     AuthPostSource: jest.fn(() =>
