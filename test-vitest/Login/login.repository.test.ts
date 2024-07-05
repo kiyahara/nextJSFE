@@ -27,11 +27,6 @@ vi.mock("../../mockingData/core/data/dataSources/local/baseLocal", () => ({
 }));
 
 describe("LoginRepositoryService", () => {
-  const userData = {
-    email: "fikri.mintardja@mail.com",
-    password: "123",
-  };
-
   let authRepository: AuthRepositoryImpl;
   let mockAuthLoginDataImp: jest.Mocked<IAuthLoginData>;
   let mockBaseLocalDataImp: jest.Mocked<IBaseLocalData>;
@@ -53,6 +48,11 @@ describe("LoginRepositoryService", () => {
 
   describe("LoginRepositorySuccess", () => {
     // Arrange
+    const userData = {
+      email: "fikri.mintardja@mail.com",
+      password: "123",
+    };
+
     const expectedRespond: ResponseBaseLogin<LoginData> = {
       data: {
         user: {
@@ -80,6 +80,11 @@ describe("LoginRepositoryService", () => {
     test("AuthService Should Handle Error and Return Error Response", async () => {
       // Arrange
       expect.assertions(2);
+      const userData = {
+        email: "fikri.mintardja@mail.com",
+        password: "123",
+      };
+
       const errorResponse: ResponseBaseLogin<LoginModel> = {
         status: 401,
         data: null,

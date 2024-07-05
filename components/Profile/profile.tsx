@@ -23,7 +23,7 @@ export default function ProfileComponent() {
     RefreshToken(String(localStorage.getItem("refreshToken")))
       .then((res) => {
         setVisible(false);
-        RenewTokenSet(res.data?.backendToken?.accessToken);
+        RenewTokenSet(String(res?.data?.backendToken?.accessToken));
         getProfileUser();
       })
       .catch((err) => {
@@ -35,10 +35,11 @@ export default function ProfileComponent() {
 
   function getProfileUser() {
     setVisible(true);
-    getProfile(
-      Number(localStorage.getItem("idProfile")),
-      String(localStorage.getItem("accessToken"))
-    )
+    const body = {
+      id: Number(localStorage.getItem("idProfile")),
+      token: String(localStorage.getItem("accessToken")),
+    };
+    getProfile(body)
       .then((res) => {
         setVisible(false);
         setProfile(res.data);

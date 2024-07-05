@@ -22,7 +22,7 @@ export class AuthRepositoryImpl extends IAuthRepository {
     return this.authLoginDataImp
       .AuthLoginData(inputs)
       .then((resp: ResponseBaseLogin<LoginData>) => {
-        console.log(resp);
+        // console.log(resp);
         return resp;
       })
       .catch((error) => {

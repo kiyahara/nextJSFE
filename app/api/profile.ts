@@ -1,13 +1,16 @@
+import { ResponseBaseProfile } from "@/mockingData/core/data/models/profile/response";
 import axios from "axios";
 
-export async function getProfile(id: number, token: string) {
+export async function getProfile(
+  body: ProfileGetModel
+): Promise<ResponseBaseProfile<any>> {
   const result = await axios({
     method: "get",
-    url: process.env.BASE_URL + `users/${id}`,
+    url: process.env.BASE_URL + `users/${body.id}`,
     headers: {
       "Content-Type": "application/json",
       "ngrok-skip-browser-warning": "true",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + body.token,
     },
   });
 
@@ -39,5 +42,19 @@ export async function RefreshToken(token: string) {
     url: process.env.BASE_URL + "auth/refresh",
   });
 
-  return result;
+  if (result.status == 201) {
+    const response: ResponseRefreshToken = {
+      data: result.data,
+      status: result.status,
+    };
+
+    return response;
+  } else {
+    const response: ResponseRefreshToken = {
+      data: null,
+      status: result.status,
+    };
+
+    return response;
+  }
 }

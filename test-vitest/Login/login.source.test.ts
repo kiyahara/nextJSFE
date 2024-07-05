@@ -41,8 +41,7 @@ describe("LoginSource", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  describe("Success", () => {
+  test("AuthServiceLogin Should Call Correct Respond With the Correct Inputs", async () => {
     // Arrange
     const userData = {
       email: "fikri.mintardja@mail.com",
@@ -62,30 +61,33 @@ describe("LoginSource", () => {
       },
       status: 201,
     };
-    test("AuthService Should Call Correct Respond With the Correct Inputs", async () => {
-      // Assert
-      // const result = await authLoginSource.AuthLoginData(userData);
-      mockSourceAuthLogin.mockResolvedValue(expectedRespond);
-      // Act
-      await expect(authLoginSource.AuthLoginData(userData)).resolves.toEqual(
-        expectedRespond
-      );
-    });
-    test("AuthService Should Handle Error and Return Error Response", async () => {
-      // Arrange
-      const errorResponse = {
-        status: 401,
-        data: null,
-      };
-      // Assert
-      // const result = await authLoginSource.AuthLoginData(userData);
-      mockSourceAuthLogin.mockRejectedValue(errorResponse);
-      // Act
-      await expect(authLoginSource.AuthLoginData(userData)).rejects.toEqual(
-        errorResponse
-      );
-    });
+    // Assert
+    // const result = await authLoginSource.AuthLoginData(userData);
+    mockSourceAuthLogin.mockResolvedValue(expectedRespond);
+    // Act
+    await expect(authLoginSource.AuthLoginData(userData)).resolves.toEqual(
+      expectedRespond
+    );
   });
+  test("AuthServiceLogin Should Handle Error and Return Error Response", async () => {
+    // Arrange
+    const userData = {
+      email: "fikri.mintardja@mail.com",
+      password: "1234",
+    };
+    const errorResponse = {
+      status: 401,
+      data: null,
+    };
+    // Assert
+    // const result = await authLoginSource.AuthLoginData(userData);
+    mockSourceAuthLogin.mockRejectedValue(errorResponse);
+    // Act
+    await expect(authLoginSource.AuthLoginData(userData)).rejects.toEqual(
+      errorResponse
+    );
+  });
+
   // describe("Failed", () => {
   //   // Arrange
   //   const userData = {

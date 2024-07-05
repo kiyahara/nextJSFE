@@ -16,8 +16,6 @@ import { ResponseBaseLogin } from "../../mockingData/core/data/models/auth/respo
 import { UseCaseAuthLogin } from "../../mockingData/core/domain/usecases/auth/login";
 import { LoginData } from "../../mockingData/core/domain/entities/auth/login";
 
-vi.mock("axios");
-
 // vi.mock("../../mockingData/core/data/repositories/auth", () => ({
 //   AuthRepositoryImpl: vi.fn().mockImplementation(() => ({
 //     authLogin: vi.fn().mockResolvedValue({
@@ -61,11 +59,6 @@ vi.mock("axios");
 
 const mockRepoAuthLogin = vi.spyOn(AuthRepositoryImpl.prototype, "authLogin");
 
-const userData: IInputLogin = {
-  email: "fikri.mintardja@mail.com",
-  password: "123",
-};
-
 let useCaseAuthLogin: UseCaseAuthLogin;
 let mockAuthRepository: IAuthRepository;
 let mockBaseLocalDataImp: jest.Mocked<IBaseLocalData>;
@@ -86,8 +79,12 @@ afterEach(() => {
 });
 
 describe("UseCaseAuthLogin", () => {
-  test("AuthService Should Call Correct With the Correct Inputs", async () => {
+  test("AuthServiceLogin Should Call Correct With the Correct Inputs", async () => {
     // Arrange
+    const userData: IInputLogin = {
+      email: "fikri.mintardja@mail.com",
+      password: "123",
+    };
     const expectedRespond: ResponseBaseLogin<LoginData> = {
       data: {
         user: {
@@ -107,14 +104,17 @@ describe("UseCaseAuthLogin", () => {
     mockRepoAuthLogin.mockResolvedValue(expectedRespond);
     // Act
     // expect(result).toEqual(expectedRespond);
-    // Act
     await expect(useCaseAuthLogin.execute(userData)).resolves.toEqual(
       expectedRespond
     );
     expect(mockAuthRepository.authLogin).toHaveBeenCalledWith(userData);
   });
-  test("AuthService Should Handle Error and Return Error Response", async () => {
+  test("AuthServiceLogin Should Handle Error and Return Error Response", async () => {
     // Arrange
+    const userData: IInputLogin = {
+      email: "fikri.mintardja@mail.com",
+      password: "123",
+    };
     const errorResponse: ResponseBaseLogin<LoginModel> = {
       status: 401,
       data: null,

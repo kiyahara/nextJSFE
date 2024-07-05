@@ -1,25 +1,21 @@
+import { type ResponseBaseProfile } from "../../../data/models/profile/response";
+import { type IBodyProfile } from "../../../data/models/profile/profile";
 import { IProfileRepository } from "../../repositories/profile";
+import { ProfileData, TokenData } from "../../entities/profile/profile";
 
-export class UseCaseGetProfile {
+export class UseCaseProfileGetData {
   protected _profileRepository: IProfileRepository;
 
-  constructor(authRepository: IProfileRepository) {
-    this._profileRepository = authRepository;
+  constructor(profileRepository: IProfileRepository) {
+    this._profileRepository = profileRepository;
   }
 
-  getId(key: string) {
-    return this._profileRepository?.profileGetId(key);
+  async execute(body: IBodyProfile): Promise<ResponseBaseProfile<ProfileData>> {
+    return await this._profileRepository?.ProfileGet(body);
   }
-
-  getToken(key: string) {
-    return this._profileRepository?.profileGetToken(key);
-  }
-
-  setToken(key: string, token: string) {
-    return this._profileRepository?.profileSetToken(key, token);
-  }
-
-  removeToken(key: string) {
-    return this._profileRepository?.profileRemoveToken(key);
+  async executeRefreshToken(
+    token: string
+  ): Promise<ResponseBaseProfile<TokenData>> {
+    return await this._profileRepository?.RefreshToken(token);
   }
 }
