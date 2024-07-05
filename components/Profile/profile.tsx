@@ -1,23 +1,16 @@
 "use client";
 
-import { getProfile } from "@/app/api/profile";
-import { RefreshToken } from "@/app/api/refresh";
+import { RefreshToken, getProfile } from "@/app/api/profile";
 import { AppShell, Button, Center, Image, LoadingOverlay } from "@mantine/core";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RenewTokenSet, TokenRemove } from "../token/token";
 
-interface ProfileModel {
-  id: number;
-  email: string;
-  name: string;
-}
-
 export default function ProfileComponent() {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
-  const [profile, setProfile] = useState<ProfileModel>();
+  const [profile, setProfile] = useState<ProfileModel | null>();
 
   function goLogin() {
     setVisible(false);

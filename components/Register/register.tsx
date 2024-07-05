@@ -17,12 +17,6 @@ import NotificationComponent from "../Notification/notification";
 import { useState } from "react";
 import { Register } from "@/app/api/register";
 
-interface RegisterModel {
-  name: string;
-  email: string;
-  password: string;
-}
-
 export default function RegisterComponent() {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
@@ -32,14 +26,14 @@ export default function RegisterComponent() {
     router.push("/");
   }
 
-  function RegisUser(formValues: RegisterModel) {
+  function RegisUser(formValues: InputRegisterModel) {
     setVisible(true);
     var CryptoJS = require("crypto-js");
     const encryptData = CryptoJS.AES.encrypt(
       formValues.password,
       process.env.jwtSecretKey
     ).toString();
-    const body: RegisterModel = {
+    const body: InputRegisterModel = {
       name: formValues.name,
       email: formValues.email,
       password: encryptData,

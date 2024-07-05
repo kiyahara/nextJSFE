@@ -5,7 +5,9 @@ interface UserData {
 }
 
 export interface LoginData {
-  token: string;
-  refresh_token: string;
+  backendToken: {
+    accessToken: string;
+    refreshToken: string;
+  };
   user: UserData;
 }

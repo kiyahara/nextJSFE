@@ -6,13 +6,13 @@ import { Register } from "../../app/api/register";
 
 vi.mock("axios");
 
-describe("registerService", () => {
+describe("RegisterRepository", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
   describe("Success", () => {
     // title
-    test("Register_UserNeverRegistered_UserCanRegister", async () => {
+    test("RegisterService Should Call Correct Respond When Input is Send", async () => {
       // Arrange
       const userData = {
         name: "fikri",
@@ -32,7 +32,7 @@ describe("registerService", () => {
     });
   });
   describe("Failed", () => {
-    test("Register_UserAlreadyRegister_UserCannotRegister", async () => {
+    test("RegisterService Should Handle Error When Input is Send", async () => {
       expect.assertions(1);
       const userData = {
         name: "fikri",

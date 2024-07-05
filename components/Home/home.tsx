@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TokenSet } from "../token/token";
 
-interface LoginModel {
+interface InputLoginModel {
   email: string;
   password: string;
 }
@@ -41,20 +41,20 @@ export default function HomeComponent() {
     },
   });
 
-  function onLogin(formValues: LoginModel) {
+  function onLogin(formValues: InputLoginModel) {
     setVisible(true);
     var CryptoJS = require("crypto-js");
     const encryptData = CryptoJS.AES.encrypt(
       formValues.password,
       process.env.jwtSecretKey
     ).toString();
-    const body: LoginModel = {
+    const body: InputLoginModel = {
       email: formValues.email,
       password: encryptData,
     };
     Login(body)
       .then((res) => {
-        if (res.status == 201) {
+        if (res.status == 201 && res.data != null) {
           setVisible(false);
           TokenSet(
             res.data?.user.id,

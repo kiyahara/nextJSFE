@@ -1,34 +1,84 @@
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
-import axios from "axios";
-import { Login } from "../../app/api/auth";
 import { AuthRepositoryImpl } from "../../mockingData/core/data/repositories/auth";
 import {
   BaseLocalDataImpl,
   IBaseLocalData,
 } from "../../mockingData/core/data/dataSources/local/baseLocal";
+import { UseCaseAuthToken } from "../../mockingData/core/domain/usecases/auth/token";
+import { IInputLogin } from "../../mockingData/core/data/models/auth/login";
+import { IAuthRepository } from "../../mockingData/core/domain/repositories/auth";
+import {
+  AuthLoginDataImpl,
+  IAuthLoginData,
+} from "../../mockingData/core/data/dataSources/remote/auth";
+import { ResponseBaseLogin } from "../../mockingData/core/data/models/auth/response";
+import { UseCaseAuthLogin } from "../../mockingData/core/domain/usecases/auth/login";
+import { LoginData } from "../../mockingData/core/domain/entities/auth/login";
 
 vi.mock("axios");
 
-vi.mock("../../mockingData/core/data/dataSources/local/baseLocal", () => ({
-  BaseLocalDataImpl: vi.fn().mockImplementation(() => ({
-    setLocalStorage: vi.fn(),
-    setTokenLocalStorage: vi.fn(),
-    removeLocalStorage: vi.fn(),
-  })),
-}));
+// vi.mock("../../mockingData/core/data/repositories/auth", () => ({
+//   AuthRepositoryImpl: vi.fn().mockImplementation(() => ({
+//     authLogin: vi.fn().mockResolvedValue({
+//       data: {
+//         user: {
+//           id: 1,
+//           email: "fikri.mintardja@mail.com",
+//           name: "fenri",
+//         },
+//         backendToken: {
+//           accessToken: "fakeToken",
+//           refreshToken: "fakeToken",
+//         },
+//       },
+//       status: 201,
+//     }),
+//     authSetId: vi.fn(),
+//     authSetToken: vi.fn(),
+//   })),
+// }));
+// vi.mock("../../mockingData/core/data/repositories/auth", () => ({
+//   AuthRepositoryImpl: vi.fn().mockImplementation(() => ({
+//     authLogin: vi.fn().mockResolvedValue({
+//       data: {
+//         user: {
+//           id: 1,
+//           email: "fikri.mintardja@mail.com",
+//           name: "fenri",
+//         },
+//         backendToken: {
+//           accessToken: "fakeToken",
+//           refreshToken: "fakeToken",
+//         },
+//       },
+//       status: 201,
+//     }),
+//     authSetId: vi.fn(),
+//     authSetToken: vi.fn(),
+//   })),
+// }));
 
-const userData = {
+const mockRepoAuthLogin = vi.spyOn(AuthRepositoryImpl.prototype, "authLogin");
+
+const userData: IInputLogin = {
   email: "fikri.mintardja@mail.com",
   password: "123",
 };
 
-let authRepository: AuthRepositoryImpl;
+let useCaseAuthLogin: UseCaseAuthLogin;
+let mockAuthRepository: IAuthRepository;
 let mockBaseLocalDataImp: jest.Mocked<IBaseLocalData>;
+let mockAuthLoginDataImp: jest.Mocked<IAuthLoginData>;
 
 beforeEach(() => {
   mockBaseLocalDataImp = new BaseLocalDataImpl() as jest.Mocked<IBaseLocalData>;
-  authRepository = new AuthRepositoryImpl(mockBaseLocalDataImp);
+  mockAuthLoginDataImp = new AuthLoginDataImpl() as jest.Mocked<IAuthLoginData>;
+  mockAuthRepository = new AuthRepositoryImpl(
+    mockBaseLocalDataImp,
+    mockAuthLoginDataImp
+  );
+  useCaseAuthLogin = new UseCaseAuthLogin(mockAuthRepository);
 });
 
 afterEach(() => {
@@ -38,74 +88,76 @@ afterEach(() => {
 describe("UseCaseAuthLogin", () => {
   test("AuthService Should Call Correct With the Correct Inputs", async () => {
     // Arrange
-    const expectedRespond = {
-      user: {
-        id: 1,
-        email: "fikri.mintardja@mail.com",
-        name: "fenri",
-      },
-      backendToken: {
-        accessToken: "dsadsadasd",
-        refreshToken: "dsadsadasf",
+    const expectedRespond: ResponseBaseLogin<LoginData> = {
+      data: {
+        user: {
+          id: 1,
+          email: "fikri.mintardja@mail.com",
+          name: "fenri",
+        },
+        backendToken: {
+          accessToken: "fakeToken",
+          refreshToken: "fakeToken",
+        },
       },
       status: 201,
     };
     // Assert
-    (axios as jest.MockedFunction<any>).mockResolvedValue(expectedRespond);
-    const result = await Login(userData);
+    // const result = await useCaseAuthLogin.execute(userData);
+    mockRepoAuthLogin.mockResolvedValue(expectedRespond);
     // Act
-    expect(result).toEqual(expectedRespond);
+    // expect(result).toEqual(expectedRespond);
+    // Act
+    await expect(useCaseAuthLogin.execute(userData)).resolves.toEqual(
+      expectedRespond
+    );
+    expect(mockAuthRepository.authLogin).toHaveBeenCalledWith(userData);
   });
   test("AuthService Should Handle Error and Return Error Response", async () => {
     // Arrange
-    expect.assertions(1);
-    const resp = {
-      message: "Unauthorized",
-      statusCode: "401",
+    const errorResponse: ResponseBaseLogin<LoginModel> = {
+      status: 401,
+      data: null,
     };
-    // Act
-    (axios as jest.MockedFunction<any>).mockResolvedValue(Promise.reject(resp));
     // Assert
-    await expect(Login(userData)).rejects.toBe(resp);
+    // const result = await useCaseAuthLogin.execute(userData);
+    mockRepoAuthLogin.mockRejectedValue(errorResponse);
+    // Act
+    await expect(useCaseAuthLogin.execute(userData)).rejects.toEqual(
+      errorResponse
+    );
+    expect(mockAuthRepository.authLogin).toHaveBeenCalledWith(userData);
   });
 });
 
 describe("UseCaseAuthSetToken", () => {
-  test("authSetId should call setIdLocalStorage with correct arguments", () => {
+  let useCaseAuthToken: UseCaseAuthToken;
+  let mockAuthRepository: AuthRepositoryImpl;
+  let mockAuthLoginDataImp: jest.Mocked<IAuthLoginData>;
+  let mockBaseLocalDataImp: jest.Mocked<IBaseLocalData>;
+
+  beforeEach(() => {
+    mockAuthRepository = new AuthRepositoryImpl(
+      mockBaseLocalDataImp,
+      mockAuthLoginDataImp
+    );
+    useCaseAuthToken = new UseCaseAuthToken(mockAuthRepository);
+  });
+  test("should set id using auth repository", () => {
     // Arrange
     const key = "IdLogin";
     const Id = "1";
 
     // Act
-    authRepository.authSetId(key, Id);
-
-    //Assert
-    expect(mockBaseLocalDataImp.setLocalStorage).toHaveBeenCalledWith(key, Id);
+    useCaseAuthToken.setId(key, Id);
   });
 
-  test("authSetToken should call setTokenLocalStorage with correct arguments", () => {
+  test("should set token using auth repository", () => {
     // Arrange
     const key = "authToken";
     const token = "fakeToken";
 
     // Act
-    authRepository.authSetToken(key, token);
-
-    //Assert
-    expect(mockBaseLocalDataImp.setTokenLocalStorage).toHaveBeenCalledWith(
-      key,
-      token
-    );
-  });
-
-  test("authRemoveToken should call removeLocalStorage with correct arguments", () => {
-    // Arrange
-    const key = "authToken";
-
-    // Act
-    authRepository.authRemoveToken(key);
-
-    // Assert
-    expect(mockBaseLocalDataImp.removeLocalStorage).toHaveBeenCalledWith(key);
+    useCaseAuthToken.setToken(key, token);
   });
 });

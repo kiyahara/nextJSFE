@@ -3,7 +3,7 @@ import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 import axios from "axios";
 import { getProfile } from "../../app/api/profile";
-import { RefreshToken } from "../../app/api/refresh";
+import { RefreshToken } from "../../app/api/profile";
 
 vi.mock("axios");
 
@@ -19,7 +19,7 @@ vi.mock("axios");
 //   }
 // }
 
-describe("ProfileSourceService", () => {
+describe("ProfileSource", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
