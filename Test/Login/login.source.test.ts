@@ -6,8 +6,6 @@ import {
 import { afterEach } from "node:test";
 import { describe, expect, test, vi } from "vitest";
 
-// vi.mock("axios")
-
 // vi.mock("./../../../core/data/dataSources/remote/auth", () => ({
 //   AuthLoginDataImpl: vi.fn().mockImplementation(() => ({
 //     AuthPostSource: jest.fn(() =>
@@ -43,7 +41,8 @@ describe("LoginSource", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-  test("AuthServiceLogin Should Call Correct Respond With the Correct Inputs", async () => {
+
+  describe("Success", () => {
     // Arrange
     const userData = {
       email: "fikri.mintardja@mail.com",
@@ -63,33 +62,30 @@ describe("LoginSource", () => {
       },
       status: 201,
     };
-    // Assert
-    // const result = await authLoginSource.AuthLoginData(userData);
-    mockSourceAuthLogin.mockResolvedValue(expectedRespond);
-    // Act
-    await expect(authLoginSource.AuthLoginData(userData)).resolves.toEqual(
-      expectedRespond
-    );
+    test("AuthService Should Call Correct Respond With the Correct Inputs", async () => {
+      // Assert
+      // const result = await authLoginSource.AuthLoginData(userData);
+      mockSourceAuthLogin.mockResolvedValue(expectedRespond);
+      // Act
+      await expect(authLoginSource.AuthLoginData(userData)).resolves.toEqual(
+        expectedRespond
+      );
+    });
+    test("AuthService Should Handle Error and Return Error Response", async () => {
+      // Arrange
+      const errorResponse = {
+        status: 401,
+        data: null,
+      };
+      // Assert
+      // const result = await authLoginSource.AuthLoginData(userData);
+      mockSourceAuthLogin.mockRejectedValue(errorResponse);
+      // Act
+      await expect(authLoginSource.AuthLoginData(userData)).rejects.toEqual(
+        errorResponse
+      );
+    });
   });
-  test("AuthServiceLogin Should Handle Error and Return Error Response", async () => {
-    // Arrange
-    const userData = {
-      email: "fikri.mintardja@mail.com",
-      password: "1234",
-    };
-    const errorResponse = {
-      status: 401,
-      data: null,
-    };
-    // Assert
-    // const result = await authLoginSource.AuthLoginData(userData);
-    mockSourceAuthLogin.mockRejectedValue(errorResponse);
-    // Act
-    await expect(authLoginSource.AuthLoginData(userData)).rejects.toEqual(
-      errorResponse
-    );
-  });
-
   // describe("Failed", () => {
   //   // Arrange
   //   const userData = {

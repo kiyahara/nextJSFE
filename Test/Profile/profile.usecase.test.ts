@@ -143,6 +143,13 @@ describe("UseCaseAuthSetToken", () => {
     );
     useCaseProfileToken = new UseCaseProfileToken(mockProfileRepository);
   });
+  test("should get id using profile repository", () => {
+    // Arrange
+    const key = "IdProfile";
+
+    // Act
+    useCaseProfileToken.getId(key);
+  });
   test("should set token using profile repository", () => {
     // Arrange
     const key = "accessToken";

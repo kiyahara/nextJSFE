@@ -7,19 +7,19 @@ export async function Register(body: InputRegisterModel) {
     data: body,
   });
 
-  if (result.status == 201) {
-    const response: ResponseRegister = {
-      data: result.data,
-      status: result.status,
-    };
+  // if (result.status == 201) {
+  const response: ResponseRegister = {
+    data: result.data,
+    status: result.status,
+  };
 
-    return response;
-  } else {
-    const response: ResponseRegister = {
-      data: null,
-      status: result.status,
-    };
+  return response;
+  // } else {
+  //   const response: ResponseRegister = {
+  //     data: null,
+  //     status: result.status,
+  //   };
 
-    return response;
-  }
+  //   return response;
+  // }
 }

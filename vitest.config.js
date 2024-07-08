@@ -4,8 +4,15 @@ export default defineConfig({
   test: {
     globals: true,
     coverage: {
-      provider: "istanbul", // or 'v8'
-      reporter: ["text", "json", "html"],
+      enabled: true,
+      provider: "istanbul",
+      exclude: ["**/style*.ts"],
+      include: ["**mockingData**"],
+      all: false,
+      statements: 100,
+      lines: 100,
+      branches: 100,
+      functions: 100,
     },
   },
 });

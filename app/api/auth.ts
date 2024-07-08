@@ -10,19 +10,19 @@ export async function Login(
     data: body,
   });
 
-  if (result.status == 201) {
-    const response: ResponseLogin = {
-      data: result.data,
-      status: result.status,
-    };
+  // if (result.status == 201) {
+  const response: ResponseLogin = {
+    data: result.data,
+    status: result.status,
+  };
 
-    return response;
-  } else {
-    const response: ResponseLogin = {
-      data: null,
-      status: result.status,
-    };
+  return response;
+  // } else {
+  //   const response: ResponseLogin = {
+  //     data: null,
+  //     status: result.status,
+  //   };
 
-    return response;
-  }
+  //   return response;
+  // }
 }

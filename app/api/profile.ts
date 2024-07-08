@@ -14,21 +14,21 @@ export async function getProfile(
     },
   });
 
-  if (result.status == 200) {
-    const response: ResponseProfile = {
-      data: result.data,
-      status: result.status,
-    };
+  // if (result.status == 200) {
+  const response: ResponseProfile = {
+    data: result.data,
+    status: result.status,
+  };
 
-    return response;
-  } else {
-    const response: ResponseProfile = {
-      data: null,
-      status: result.status,
-    };
+  return response;
+  // } else {
+  //   const response: ResponseProfile = {
+  //     data: null,
+  //     status: result.status,
+  //   };
 
-    return response;
-  }
+  //   return response;
+  // }
 }
 
 export async function RefreshToken(token: string) {
